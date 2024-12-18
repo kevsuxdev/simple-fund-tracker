@@ -22,7 +22,7 @@ const Transaction = () => {
   
   useEffect(() => {
     getTransaction()
-  }, [getTransaction])
+  }, [])
 
   return (
     <section className='w-full h-screen p-5'>

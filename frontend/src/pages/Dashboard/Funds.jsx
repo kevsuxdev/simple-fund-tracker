@@ -35,6 +35,16 @@ import {
 import { Button } from '@/components/ui/button'
 import TextInput from '@/components/TextInput'
 import DatePicker from '@/components/DatePicker'
+import { IoMdEye } from 'react-icons/io'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import { DialogClose } from '@radix-ui/react-dialog'
 
 const Funds = () => {
   const [error, setError] = useState(null)
@@ -160,7 +170,7 @@ const Funds = () => {
   useEffect(() => {
     getFunds()
     getExpenses()
-  }, [getFunds, getExpenses])
+  }, [])
   return (
     <section className='w-full h-screen p-5'>
       <article className='space-y-3'>
@@ -195,7 +205,7 @@ const Funds = () => {
                 ₱ {totalSaving.toFixed(2)}
               </p>
             </div>
-            
+
             <div>
               <h1 className='xl:text-sm text-[10px] font-medium text-blue-500 tracking-wider'>
                 Grand Total
@@ -238,16 +248,42 @@ const Funds = () => {
                       Savings
                     </td>
                     <td className='text-[9px] text-center py-3 xl:text-sm'>
-                      Not Applicable
-                    </td>
-                    <td className='text-[9px] text-center py-3 xl:text-sm'>
                       ₱ {parseFloat(amount.$numberDecimal).toFixed(2)}
                     </td>
-                    <td className='text-[9px] text-center py-3 xl:text-sm'>
-                      {format(date, 'MM-dd-yyyy')}
-                    </td>
                     <td className='text-center py-3'>
-                      <div className='flex items-center justify-center gap-x-3 text-xl'>
+                      <div className='flex items-center justify-center gap-x-2 text-xl'>
+                        <Dialog>
+                          <DialogTrigger>
+                            <IoMdEye className='text-blue-500' />
+                          </DialogTrigger>
+                          <DialogContent className='bg-main border-none'>
+                            <DialogHeader>
+                              <DialogTitle className='text-start pb-2'>
+                                Savings
+                              </DialogTitle>
+                              <aside className='text-start flex flex-col gap-1'>
+                                <h1 className='text-xs tracking-wide font-medium'>
+                                  ID: {_id}
+                                </h1>
+                                <h1 className='text-xs tracking-wide font-medium'>
+                                  Description: Not Applicable
+                                </h1>
+                                <h1 className='text-xs tracking-wide font-medium'>
+                                  Amount: ₱{' '}
+                                  {parseFloat(amount.$numberDecimal).toFixed(2)}
+                                </h1>
+                                <h1 className='text-xs tracking-wide font-medium'>
+                                  Date added: {format(date, 'MMMM d, yyyy')}
+                                </h1>
+                              </aside>
+                            </DialogHeader>
+                            <DialogClose>
+                              <Button className='w-full bg-red-700'>
+                                Close
+                              </Button>
+                            </DialogClose>
+                          </DialogContent>
+                        </Dialog>
                         <Sheet>
                           <SheetTrigger
                             onClick={() =>
@@ -332,7 +368,7 @@ const Funds = () => {
                               <AlertDialogAction
                                 onClick={() => deleteFunds(_id)}
                               >
-                                Continue
+                                Delete Fund
                               </AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>
@@ -359,16 +395,44 @@ const Funds = () => {
                         Expenses
                       </td>
                       <td className='text-[9px] text-center py-3 xl:text-sm'>
-                        {description}
-                      </td>
-                      <td className='text-[9px] text-center py-3 xl:text-sm'>
                         ₱ {parseFloat(amount.$numberDecimal).toFixed(2)}
                       </td>
-                      <td className='text-[9px] text-center py-3 xl:text-sm'>
-                        {format(date, 'MM-dd-yyyy')}
-                      </td>
                       <td className='text-center py-3'>
-                        <div className='flex items-center justify-center gap-x-3 text-xl'>
+                        <div className='flex items-center justify-center gap-x-2 text-xl'>
+                          <Dialog>
+                            <DialogTrigger>
+                              <IoMdEye className='text-blue-500' />
+                            </DialogTrigger>
+                            <DialogContent className='bg-main border-none'>
+                              <DialogHeader>
+                                <DialogTitle className='text-start pb-2'>
+                                  Expense
+                                </DialogTitle>
+                                <aside className='text-start flex flex-col gap-1'>
+                                  <h1 className='text-xs tracking-wide font-medium'>
+                                    ID: {_id}
+                                  </h1>
+                                  <h1 className='text-xs tracking-wide font-medium'>
+                                    Description: {description}
+                                  </h1>
+                                  <h1 className='text-xs tracking-wide font-medium'>
+                                    Amount: ₱{' '}
+                                    {parseFloat(amount.$numberDecimal).toFixed(
+                                      2
+                                    )}
+                                  </h1>
+                                  <h1 className='text-xs tracking-wide font-medium'>
+                                    Date added: {format(date, 'MMMM d, yyyy')}
+                                  </h1>
+                                </aside>
+                              </DialogHeader>
+                              <DialogClose>
+                                <Button className='w-full bg-red-700'>
+                                  Close
+                                </Button>
+                              </DialogClose>
+                            </DialogContent>
+                          </Dialog>
                           <Sheet>
                             <SheetTrigger
                               onClick={() =>
@@ -468,7 +532,7 @@ const Funds = () => {
                                 <AlertDialogAction
                                   onClick={(event) => deleteExpense(_id)}
                                 >
-                                  Continue
+                                  Delete Fund
                                 </AlertDialogAction>
                               </AlertDialogFooter>
                             </AlertDialogContent>
@@ -483,37 +547,37 @@ const Funds = () => {
         </aside>
 
         <div className='mt-5'>
-            <Pagination className='w-fit'>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    className={
-                      startIndex === 0
-                        ? 'pointer-events-none opacity-50'
-                        : undefined
-                    }
-                    onClick={() => {
-                      setStartIndex(startIndex - rowPerPage)
-                      setEndIndex(endIndex - rowPerPage)
-                    }}
-                  />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationNext
-                    className={
-                      endIndex >= maxFundsCount
-                        ? 'pointer-events-none opacity-50'
-                        : undefined
-                    }
-                    onClick={() => {
-                      setStartIndex(startIndex + rowPerPage)
-                      setEndIndex(endIndex + rowPerPage)
-                    }}
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </div>
+          <Pagination className='w-fit'>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  className={
+                    startIndex === 0
+                      ? 'pointer-events-none opacity-50'
+                      : undefined
+                  }
+                  onClick={() => {
+                    setStartIndex(startIndex - rowPerPage)
+                    setEndIndex(endIndex - rowPerPage)
+                  }}
+                />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext
+                  className={
+                    endIndex >= maxFundsCount
+                      ? 'pointer-events-none opacity-50'
+                      : undefined
+                  }
+                  onClick={() => {
+                    setStartIndex(startIndex + rowPerPage)
+                    setEndIndex(endIndex + rowPerPage)
+                  }}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
       </aside>
     </section>
   )
