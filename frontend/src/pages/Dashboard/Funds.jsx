@@ -276,12 +276,8 @@ const Funds = () => {
                                   Date added: {format(date, 'MMMM d, yyyy')}
                                 </h1>
                               </aside>
+                              <DialogDescription></DialogDescription>
                             </DialogHeader>
-                            <DialogClose>
-                              <Button className='w-full bg-red-700'>
-                                Close
-                              </Button>
-                            </DialogClose>
                           </DialogContent>
                         </Dialog>
                         <Sheet>
@@ -425,12 +421,8 @@ const Funds = () => {
                                     Date added: {format(date, 'MMMM d, yyyy')}
                                   </h1>
                                 </aside>
+                                <DialogDescription></DialogDescription>
                               </DialogHeader>
-                              <DialogClose>
-                                <Button className='w-full bg-red-700'>
-                                  Close
-                                </Button>
-                              </DialogClose>
                             </DialogContent>
                           </Dialog>
                           <Sheet>

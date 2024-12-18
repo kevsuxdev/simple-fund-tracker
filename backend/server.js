@@ -34,6 +34,7 @@ app.use('/api/expenses', expenseRoute)
 app.use('/api/transaction', transactionRoute)
 
 app.use(express.static(path.join(__dirname, '../frontend/dist')))
+
 app.get('*', (request, response) => {
   response.sendFile(path.join(__dirname, '../frontend/dist/index.html'))
 })

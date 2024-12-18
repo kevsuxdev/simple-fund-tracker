@@ -17,8 +17,8 @@ import {
 const MobileNav = ({ handleLogout, showNav, setShowNav }) => {
   return (
     <nav
-      className={`mobile-nav absolute z-10 left-0 top-0 h-screen bg-main duration-200 ${
-        showNav ? 'w-44' : 'w-0'
+      className={`fixed z-10 left-0 top-0 h-screen bg-main duration-200 ${
+        showNav ? 'w-56' : 'w-0'
       }`}
     >
       <div className='flex flex-col gap-2 p-3'>
