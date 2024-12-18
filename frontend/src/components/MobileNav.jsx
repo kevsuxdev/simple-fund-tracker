@@ -1,7 +1,6 @@
 import { navLinks } from '@/constant'
-import React, { useEffect, useRef } from 'react'
+import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { IoLogOut } from 'react-icons/io5'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,7 +13,13 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 
-const MobileNav = ({ handleLogout, showNav, setShowNav }) => {
+const MobileNav = ({ handleLogout, showNav }) => {
+  const [openDropdown, setOpenDropdown] = useState(null)
+
+  const toggleDropdown = (id) => {
+    setOpenDropdown((prev) => (prev === id ? null : id))
+  }
+
   return (
     <nav
       className={`fixed z-10 left-0 top-0 h-screen bg-main duration-200 ${
@@ -23,19 +28,44 @@ const MobileNav = ({ handleLogout, showNav, setShowNav }) => {
     >
       <div className='flex flex-col gap-2 p-3'>
         {navLinks.map((nav) => {
-          const { id, location, name } = nav
+          const { id, location, name, subCategory } = nav
           return (
-            <NavLink
-              key={id}
-              to={location}
-              className={({ isActive }) =>
-                `text-xs text-start text-white p-3 duration-200 py-3 rounded-lg cursor-pointer ${
-                  showNav ? 'block' : 'hidden'
-                } ${isActive ? 'bg-accent' : ''}`
-              }
-            >
-              {name}
-            </NavLink>
+            <React.Fragment key={id}>
+              <NavLink
+                to={location}
+                end={location === ''}
+                onClick={() => toggleDropdown(id)}
+                className={({ isActive }) =>
+                  `text-xs text-start text-white p-3 duration-200 py-3 rounded-lg cursor-pointer ${
+                    showNav ? 'block' : 'hidden'
+                  } ${
+                    isActive && name !== 'Funds & Expenses' ? 'bg-accent' : ''
+                  }`
+                }
+              >
+                {name}
+              </NavLink>
+              {subCategory && openDropdown === id && (
+                <article className='pl-5 duration-200'>
+                  {subCategory.map((category) => {
+                    const { id, location, name } = category
+                    return (
+                      <NavLink
+                        key={id}
+                        to={location}
+                        className={({ isActive }) =>
+                          `text-xs text-start text-white p-3 duration-200 py-3 rounded-lg cursor-pointer ${
+                            showNav ? 'block' : 'hidden'
+                          } ${isActive ? 'bg-accent' : ''}`
+                        }
+                      >
+                        {name}
+                      </NavLink>
+                    )
+                  })}
+                </article>
+              )}
+            </React.Fragment>
           )
         })}
         <AlertDialog>
