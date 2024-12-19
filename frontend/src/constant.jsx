@@ -32,7 +32,6 @@ const navLinks = [
       },
     ],
   },
-
   {
     id: 3,
     location: 'transaction',

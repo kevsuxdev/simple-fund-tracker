@@ -59,7 +59,7 @@ const AddFunds = () => {
         <h1 className='text-2xl font-bold bottom-line relative w-fit pb-2'>
           Add Funds
         </h1>
-        <p className='text-sm text-prompt '>
+        <p className='text-sm text-prompt'>
           Ready to add some money to your account? Just fill out the form below
           and boost your balance in no time!
         </p>

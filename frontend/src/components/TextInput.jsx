@@ -2,7 +2,7 @@ import React from 'react'
 
 const TextInput = ({ title, type, placeholder, value, onChange }) => {
   return (
-    <article className='w-full flex items-start gap-2 flex-col '>
+    <article className='w-full flex items-start gap-2 flex-col'>
       <label className='text-sm'>{title || 'Email Address'}</label>
       <input
         type={type || 'text'}

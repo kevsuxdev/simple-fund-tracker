@@ -44,7 +44,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { DialogClose } from '@radix-ui/react-dialog'
 
 const Funds = () => {
   const [error, setError] = useState(null)

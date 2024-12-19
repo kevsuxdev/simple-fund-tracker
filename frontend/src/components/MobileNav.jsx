@@ -22,7 +22,7 @@ const MobileNav = ({ handleLogout, showNav }) => {
 
   return (
     <nav
-      className={`fixed z-10 left-0 top-0 h-screen bg-main duration-200 ${
+      className={`fixed left-0 top-0 h-screen bg-main duration-200 ${
         showNav ? 'w-56' : 'w-0'
       }`}
     >
@@ -46,7 +46,7 @@ const MobileNav = ({ handleLogout, showNav }) => {
                 {name}
               </NavLink>
               {subCategory && openDropdown === id && (
-                <article className='pl-5 duration-200'>
+                <article className='pl-5 duration-400'>
                   {subCategory.map((category) => {
                     const { id, location, name } = category
                     return (

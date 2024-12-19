@@ -73,7 +73,12 @@ const DashboardLayout = () => {
         <DesktopNav handleLogout={handleLogout} />
       ) : (
         <React.Fragment>
-          <span className='fixed text-white text-2xl top-5 right-5'>
+          <div
+            className={`fixed bg-black/40 inset-0 z-0 duration-100 ${
+              showNav ? 'block' : 'hidden'
+            }`}
+          />
+          <span className='fixed text-white text-2xl top-5 right-5 z-20'>
             {showNav ? (
               <IoClose onClick={() => handleNav()} />
             ) : (
