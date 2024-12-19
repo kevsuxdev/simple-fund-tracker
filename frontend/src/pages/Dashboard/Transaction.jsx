@@ -1,7 +1,13 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { format } from 'date-fns'
-import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from '@/components/ui/pagination'
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination'
 
 const Transaction = () => {
   const [userTransaction, setUserTranscation] = useState([])
@@ -19,10 +25,11 @@ const Transaction = () => {
   const maxTransaction = userTransaction.length
   const [startIndex, setStartIndex] = useState(0)
   const [endIndex, setEndIndex] = useState(rowPerPage)
-  
+
   useEffect(() => {
     getTransaction()
-  }, [])
+    return () => {}
+  }, [getTransaction])
 
   return (
     <section className='w-full h-screen p-5'>
@@ -31,37 +38,37 @@ const Transaction = () => {
       </h1>
 
       <div>
-            <Pagination className='w-fit'>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    className={
-                      startIndex === 0
-                        ? 'pointer-events-none opacity-50'
-                        : undefined
-                    }
-                    onClick={() => {
-                      setStartIndex(startIndex - rowPerPage)
-                      setEndIndex(endIndex - rowPerPage)
-                    }}
-                  />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationNext
-                    className={
-                      endIndex >= maxTransaction
-                        ? 'pointer-events-none opacity-50'
-                        : undefined
-                    }
-                    onClick={() => {
-                      setStartIndex(startIndex + rowPerPage)
-                      setEndIndex(endIndex + rowPerPage)
-                    }}
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </div>
+        <Pagination className='w-fit'>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                className={
+                  startIndex === 0
+                    ? 'pointer-events-none opacity-50'
+                    : undefined
+                }
+                onClick={() => {
+                  setStartIndex(startIndex - rowPerPage)
+                  setEndIndex(endIndex - rowPerPage)
+                }}
+              />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext
+                className={
+                  endIndex >= maxTransaction
+                    ? 'pointer-events-none opacity-50'
+                    : undefined
+                }
+                onClick={() => {
+                  setStartIndex(startIndex + rowPerPage)
+                  setEndIndex(endIndex + rowPerPage)
+                }}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
 
       <aside className='mt-10 flex flex-col gap-5 xl:px-5 px-5 pb-20 '>
         {userTransaction

@@ -62,8 +62,6 @@ const Funds = () => {
   const rowPerPage = 5
   const [startIndex, setStartIndex] = useState(0)
   const [endIndex, setEndIndex] = useState(rowPerPage)
-  const [totalExpense, setTotalExpense] = useState(0)
-  const [totalSaving, setTotalSaving] = useState(0)
 
   const maxFundsCount = userFunds.length
 
@@ -71,13 +69,6 @@ const Funds = () => {
     try {
       const response = await axios.get('/api/funds/')
       const data = response.data.funds
-
-      const total = data.reduce(
-        (acc, fund) => acc + parseFloat(fund.amount.$numberDecimal),
-        0
-      )
-
-      setTotalSaving(total)
 
       setUserFunds(data)
     } catch (error) {
@@ -120,12 +111,6 @@ const Funds = () => {
       const response = await axios.get('/api/expenses/expense')
       const data = response.data.expenses
 
-      const total = data.reduce(
-        (acc, fund) => acc + parseFloat(fund.amount.$numberDecimal),
-        0
-      )
-
-      setTotalExpense(total)
       setUserExpenses(data)
     } catch (error) {
       console.log(error.response)
@@ -169,7 +154,8 @@ const Funds = () => {
   useEffect(() => {
     getFunds()
     getExpenses()
-  }, [])
+    return () => {}
+  }, [getFunds, getExpenses])
   return (
     <section className='w-full h-screen p-5'>
       <article className='space-y-3'>
@@ -185,37 +171,7 @@ const Funds = () => {
       </article>
 
       <aside className='mt-5 w-full'>
-        <nav className='flex items-center justify-between w-full'>
-          <div className='flex items-center justify-around flex-1'>
-            <div>
-              <h1 className='xl:text-sm text-[10px] font-medium text-red-500 tracking-wider'>
-                Total Expenses
-              </h1>
-              <p className='text-xs tracking-wide'>
-                ₱ {totalExpense.toFixed(2)}
-              </p>
-            </div>
-
-            <div>
-              <h1 className='xl:text-sm text-[10px] font-medium text-green-500 tracking-wider'>
-                Total Savings
-              </h1>
-              <p className='text-xs tracking-wide'>
-                ₱ {totalSaving.toFixed(2)}
-              </p>
-            </div>
-
-            <div>
-              <h1 className='xl:text-sm text-[10px] font-medium text-blue-500 tracking-wider'>
-                Grand Total
-              </h1>
-              <p className='text-xs tracking-wide'>
-                ₱ {parseFloat(totalSaving - totalExpense).toFixed(2)}
-              </p>
-            </div>
-          </div>
-        </nav>
-
+        
         <aside className='w-full mt-5'>
           <table className='w-full'>
             <thead className='w-full bg-[#161717] rounded-lg'>

@@ -25,7 +25,7 @@ const Login = () => {
       if (response.data && response.data.token) {
         localStorage.setItem('token', response.data.token)
         setError(null)
-        navigate('/dashboard/funds')
+        navigate('/dashboard')
       }
     } catch (error) {
       setError(error.response.data)
@@ -34,7 +34,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      navigate('/dashboard/funds')
+      navigate('/dashboard')
     } else {
       navigate('/login')
     }

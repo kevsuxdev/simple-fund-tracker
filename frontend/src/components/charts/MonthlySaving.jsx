@@ -9,7 +9,7 @@ import {
   LabelList,
 } from 'recharts'
 
-const MonthlyTrack = () => {
+const MonthlySaving = () => {
   const savingsData = [
     { month: 'January', saving: 0 },
     { month: 'February', saving: 0 },
@@ -65,30 +65,37 @@ const MonthlyTrack = () => {
 
   useEffect(() => {
     getSavings()
+    return () => {}
   }, [])
 
   return (
     <React.Fragment>
       <ResponsiveContainer
         width='100%'
-        height='50%'
-        className={'mt-5 flex flex-col gap-2'}
+        height='100%'
+        className={'flex flex-col gap-2'}
       >
         <article className='flex flex-col gap-1'>
-          <h1 className='text-xl font-bold tracking-wide'>Monthy Savings</h1>
+          <h1 className='text-xl font-bold tracking-wide'>Monthy Savings </h1>
           <p className='text-prompt text-xs'>
-            Monitor your savings month by month.
+            Monitor your funds every month in {currentYear}.
           </p>
         </article>
         <BarChart
-          className={'p-5 bg-secondary rounded-lg outline-none'}
+          className={'p-5 bg-secondary rounded-lg'}
           accessibilityLayer
           data={savings}
           margin={{
             top: 30,
           }}
         >
-          <CartesianGrid vertical={false} horizontal={true} />
+          <CartesianGrid
+            vertical={false}
+            horizontal={true}
+            strokeDasharray={'3 5'}
+            stroke='#e25ccb'
+          />
+
           <XAxis
             dataKey={'month'}
             tickLine={false}
@@ -99,7 +106,7 @@ const MonthlyTrack = () => {
           />
           <Bar
             dataKey={'saving'}
-            fill='#00d43b'
+            fill='#04ab67'
             radius={5}
             width={15}
             barSize={50}
@@ -107,19 +114,19 @@ const MonthlyTrack = () => {
             <LabelList
               dataKey='month'
               position='insideBottom'
-              horizontal
               offset={8}
               fontSize={10}
-              fill='#101110'
+              fill='#ffff'
               fontWeight={500}
               formatter={(value) => value.slice(0, 3)}
             />
             <LabelList
               dataKey={'saving'}
-              fontSize={10}
+              fontSize={11}
               position='top'
               fill='#ffff'
               fontWeight={500}
+              offset={20}
             />
           </Bar>
         </BarChart>
@@ -128,4 +135,4 @@ const MonthlyTrack = () => {
   )
 }
 
-export default MonthlyTrack
+export default MonthlySaving
