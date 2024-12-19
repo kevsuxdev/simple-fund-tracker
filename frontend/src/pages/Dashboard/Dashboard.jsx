@@ -65,7 +65,7 @@ const Dashboard = () => {
           title={'Total Expense'}
           total={expense}
         />
-        <DashboardCard title={'Grand Total'} total={grandTotal} />
+        <DashboardCard title={'Balance'} total={grandTotal} />
       </article>
 
       <article className='h-[50vh]'>
