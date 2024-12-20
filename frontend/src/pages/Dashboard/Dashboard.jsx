@@ -1,13 +1,43 @@
 import DashboardCard from '@/components/DashboardCard'
 import PulseLoading from '@/components/PulseLoading'
+import { fundsHeaderContent } from '@/constant'
 import axios from 'axios'
+import { format } from 'date-fns'
 import React, { useCallback, useEffect, useState } from 'react'
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(false)
+
   const [saving, setSaving] = useState(0)
   const [expense, setExpense] = useState(0)
   const grandTotal = saving - expense
+
+  const [latestFundsList, setLatestFundsList] = useState([])
+
+  const latestFunds = useCallback(async () => {
+    try {
+      const savingsResponse = await axios.get('/api/funds/')
+      const savings = savingsResponse.data.funds
+
+      const expensesResponse = await axios.get('/api/expenses/expense')
+      const expenses = expensesResponse.data.expenses
+
+      const mergedFunds = [
+        ...savings.map((saving) => ({ ...saving, type: 'Savings' })),
+        ...expenses.map((expense) => ({ ...expense, type: 'Expenses' })),
+      ]
+
+      setLatestFundsList(
+        mergedFunds
+          .sort(
+            (prev, next) => new Date(next.createdAt) - new Date(prev.createdAt)
+          )
+          .slice(0, 5)
+      )
+    } catch (error) {
+      console.log(error.response)
+    }
+  }, [])
 
   const getFunds = useCallback(async () => {
     try {
@@ -43,12 +73,12 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchingData = async () => {
       setIsLoading(true)
-      await Promise.all([getFunds(), getExpenses()])
+      await Promise.all([getFunds(), getExpenses(), latestFunds()])
       setIsLoading(false)
     }
 
     fetchingData()
-  }, [getFunds, getExpenses])
+  }, [getFunds, getExpenses, latestFunds])
   return (
     <section className='w-full min-h-screen p-5 flex flex-col gap-5'>
       <article className='space-y-3'>
@@ -63,19 +93,72 @@ const Dashboard = () => {
       {isLoading ? (
         <PulseLoading />
       ) : (
-        <article className='grid gap-4'>
-          <DashboardCard
-            type={'saving'}
-            title={'Total Savings'}
-            total={saving}
-          />
-          <DashboardCard
-            type={'expense'}
-            title={'Total Expense'}
-            total={expense}
-          />
-          <DashboardCard title={'Balance'} total={grandTotal} />
-        </article>
+        <React.Fragment>
+          <article className='grid gap-4'>
+            <DashboardCard
+              type={'saving'}
+              title={'Total Savings'}
+              total={saving}
+            />
+            <DashboardCard
+              type={'expense'}
+              title={'Total Expenses'}
+              total={expense}
+            />
+            <DashboardCard title={'Balance'} total={grandTotal} />
+          </article>
+
+          <aside className='flex flex-col gap-3'>
+            <h1 className='text-xl font-bold tracking-wide'>
+              Recent Funds Added
+            </h1>
+            <table className='w-full border-collapse'>
+              <thead className='w-full bg-[#161717] rounded-lg'>
+                <tr>
+                  {fundsHeaderContent.map((nav) => {
+                    const { id, name } = nav
+                    return (
+                      <th
+                        key={id}
+                        className='flex-1 text-center xl:text-sm text-[10px] font-medium tracking-wide py-5'
+                      >
+                        {name}
+                      </th>
+                    )
+                  })}
+                </tr>
+              </thead>
+              <tbody className='w-full'>
+                {latestFundsList.map((fund, index) => {
+                  const { type, _id, amount, description, date } = fund
+                  return (
+                    <tr
+                      key={_id}
+                      className={`${
+                        index % 2 === 0 ? 'bg-white/10' : 'bg-transparent'
+                      } p-3 px-10 gap-5 w-full cursor-pointer rounded-lg`}
+                    >
+                      <td className='text-[9px] text-center py-3 xl:text-sm'>
+                        {type}
+                      </td>
+                      <td className='text-[9px] text-center py-3 xl:text-sm'>
+                        {description && description.length > 12
+                          ? `${description.slice(0, 12)}...`
+                          : description || 'Not Applicable'}
+                      </td>
+                      <td className='text-[9px] text-center py-3 xl:text-sm'>
+                        ₱ {parseFloat(amount.$numberDecimal).toFixed(2)}
+                      </td>
+                      <td className='text-[9px] text-center py-3 xl:text-sm'>
+                        {format(date, 'MM-dd-yyyy')}
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </aside>
+        </React.Fragment>
       )}
     </section>
   )
