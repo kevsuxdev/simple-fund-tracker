@@ -36,6 +36,7 @@ import { Button } from '@/components/ui/button'
 import TextInput from '@/components/TextInput'
 import DatePicker from '@/components/DatePicker'
 import { IoMdEye } from 'react-icons/io'
+import { FaDownload } from 'react-icons/fa6'
 import {
   Dialog,
   DialogContent,
@@ -201,7 +202,11 @@ const Funds = () => {
       {isLoading ? (
         <PulseLoading />
       ) : (
-        <aside className='mt-5 w-full'>
+        <aside className='mt-5 w-full flex flex-col items-start'>
+          <button className='bg-secondary text-xs rounded-lg p-3 self-end flex items-center gap-x-2 cursor-pointer'>
+            <span>Generate CSV</span>
+            <FaDownload />
+          </button>
           <aside className='w-full mt-5'>
             <table className='w-full'>
               <thead className='w-full bg-[#161717] rounded-lg'>
@@ -238,13 +243,20 @@ const Funds = () => {
                             ? `${description.slice(0, 12)}...`
                             : description || 'Not Applicable'}
                         </td>
-                        <td className='text-[9px] text-center py-3 xl:text-sm'>
-                          ₱ {parseFloat(amount.$numberDecimal).toFixed(2)}
+                        <td
+                          className={`text-[9px] text-center py-3 xl:text-sm font-medium ${
+                            type === 'Savings'
+                              ? 'text-green-400'
+                              : 'text-red-500'
+                          }`}
+                        >
+                          ₱ {type === 'Savings' ? '+' : '-'}
+                          {parseFloat(amount.$numberDecimal).toFixed(2)}
                         </td>
                         <td className='text-[9px] text-center py-3 xl:text-sm relative flex flex-col'>
                           {format(date, 'MM-dd-yyyy')}
                           <div
-                            className={`flex items-center justify-center gap-x-1 text-xl bg-main p-2 absolute left-0 -top-5 rounded-lg ${
+                            className={`flex items-center justify-center gap-x-1 text-xl bg-main p-2 absolute right-0 -top-5 rounded-lg ${
                               showActions === _id ? 'scale-100' : 'scale-0'
                             } duration-200`}
                           >

@@ -110,7 +110,7 @@ const Dashboard = () => {
 
           <aside className='flex flex-col gap-3'>
             <h1 className='text-xl font-bold tracking-wide'>
-              Recent Funds Added
+              Most Recent Transaction
             </h1>
             <table className='w-full border-collapse'>
               <thead className='w-full bg-[#161717] rounded-lg'>
@@ -138,7 +138,7 @@ const Dashboard = () => {
                         index % 2 === 0 ? 'bg-white/10' : 'bg-transparent'
                       } p-3 px-10 gap-5 w-full cursor-pointer rounded-lg`}
                     >
-                      <td className='text-[9px] text-center py-3 xl:text-sm'>
+                      <td className={`text-[9px] text-center py-3 xl:text-sm`}>
                         {type}
                       </td>
                       <td className='text-[9px] text-center py-3 xl:text-sm'>
@@ -146,8 +146,12 @@ const Dashboard = () => {
                           ? `${description.slice(0, 12)}...`
                           : description || 'Not Applicable'}
                       </td>
-                      <td className='text-[9px] text-center py-3 xl:text-sm'>
-                        ₱ {parseFloat(amount.$numberDecimal).toFixed(2)}
+                      <td
+                        className={`text-[9px] text-center py-3 xl:text-sm font-medium ${
+                          type === 'Savings' ? 'text-green-400' : 'text-red-500'
+                        }`}
+                      >
+                        ₱ {type === 'Savings' ? '+' : '-'}{parseFloat(amount.$numberDecimal).toFixed(2)}
                       </td>
                       <td className='text-[9px] text-center py-3 xl:text-sm'>
                         {format(date, 'MM-dd-yyyy')}
