@@ -46,6 +46,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import PulseLoading from '@/components/PulseLoading'
+import exportFromJSON from 'export-from-json'
 
 const Funds = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -171,6 +172,33 @@ const Funds = () => {
     }
   }
 
+  const generateCSV = () => {
+    const fundsData = [
+      ...userFunds.map((fund) => ({
+        ID: fund._id,
+        Type: 'Savings',
+        Amount: parseFloat(fund.amount.$numberDecimal).toFixed(2),
+        Description: 'Not Applicable',
+        Date: new Date(fund.date).toLocaleDateString(),
+      })),
+      ...userExpenses.map((expense) => ({
+        ID: expense._id,
+        Type: 'Expenses',
+        Amount: parseFloat(expense.amount.$numberDecimal).toFixed(2),
+        Description: expense.description,
+        Date: new Date(expense.date).toLocaleDateString(),
+      })),
+    ]
+
+    const fileName = 'Funds'
+    const exportType = exportFromJSON.types.csv
+    exportFromJSON({
+      data: fundsData,
+      fileName,
+      exportType,
+    })
+  }
+
   useEffect(() => {
     const fetchingData = async () => {
       setIsLoading(true)
@@ -203,7 +231,10 @@ const Funds = () => {
         <PulseLoading />
       ) : (
         <aside className='mt-5 w-full flex flex-col items-start'>
-          <button className='bg-secondary text-xs rounded-lg p-3 self-end flex items-center gap-x-2 cursor-pointer'>
+          <button
+            onClick={generateCSV}
+            className='bg-secondary text-xs rounded-lg p-3 self-end flex items-center gap-x-2 cursor-pointer'
+          >
             <span>Generate CSV</span>
             <FaDownload />
           </button>
@@ -251,7 +282,9 @@ const Funds = () => {
                           }`}
                         >
                           ₱ {type === 'Savings' ? '+' : '-'}
-                          {parseFloat(amount.$numberDecimal).toFixed(2)}
+                          {parseFloat(amount.$numberDecimal)
+                            .toFixed(2)
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                         </td>
                         <td className='text-[9px] text-center py-3 xl:text-sm relative flex flex-col'>
                           {format(date, 'MM-dd-yyyy')}

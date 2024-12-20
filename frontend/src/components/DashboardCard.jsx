@@ -12,7 +12,12 @@ const DashboardCard = ({ type, title, total }) => {
         <h1 className='text-sm font-bold tracking-wide'>
           {title || 'Total Savings'}
         </h1>
-        <p className='text-xs'>₱ {parseFloat(total || 0.00).toFixed(2)}</p>
+        <p className='text-xs font-medium'>
+          ₱{' '}
+          {parseFloat(total || 0)
+            .toFixed(2)
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+        </p>
       </div>
     </div>
   )

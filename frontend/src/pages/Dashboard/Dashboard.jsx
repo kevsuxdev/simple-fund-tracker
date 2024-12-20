@@ -151,7 +151,10 @@ const Dashboard = () => {
                           type === 'Savings' ? 'text-green-400' : 'text-red-500'
                         }`}
                       >
-                        ₱ {type === 'Savings' ? '+' : '-'}{parseFloat(amount.$numberDecimal).toFixed(2)}
+                        ₱ {type === 'Savings' ? '+' : '-'}
+                        {parseFloat(amount.$numberDecimal)
+                          .toFixed(2)
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                       </td>
                       <td className='text-[9px] text-center py-3 xl:text-sm'>
                         {format(date, 'MM-dd-yyyy')}
