@@ -1,10 +1,12 @@
 import React, { useContext, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import TextInput from '../components/TextInput'
 import { useState } from 'react'
 import PasswordInput from '../components/PasswordInput'
+import { IoLinkOutline } from 'react-icons/io5'
 
 import axios from 'axios'
+import { ToastContainer } from 'react-toastify'
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -74,7 +76,17 @@ const Login = () => {
           </p>
         )}
         <button className='primary-button'>Login</button>
+        <p className='text-xs flex gap-1 items-center'>
+          <span>You want to access this app?</span>
+          <NavLink
+            to={'/request'}
+            className='hover:underline flex items-center gap-1 duration-200 underline-offset-1 text-blue-500'
+          >
+            Request here.
+          </NavLink>
+        </p>
       </form>
+      <ToastContainer/>
     </section>
   )
 }

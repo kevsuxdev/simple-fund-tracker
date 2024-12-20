@@ -74,9 +74,9 @@ const MonthyExpense = ({ isDesktop }) => {
         height='100%'
         className={'flex flex-col gap-2'}
       >
-        <article className='flex flex-col gap-1'>
-          <h1 className='text-xl font-bold tracking-wide'>Monthy Expenses</h1>
-          <p className='text-prompt text-xs'>
+        <article className='flex flex-col gap-3'>
+          <h1 className='text-2xl font-bold tracking-wide'>Monthy Expenses</h1>
+          <p className='text-prompt text-sm'>
             Monitor your expenses every month in {currentYear}.
           </p>
         </article>

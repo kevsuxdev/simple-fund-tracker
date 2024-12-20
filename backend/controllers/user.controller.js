@@ -4,7 +4,9 @@ import User from '../models/user.model.js'
 import { isEmail } from '../utils/regex.js'
 import generateToken from '../utils/generateToken.js'
 import jwt from 'jsonwebtoken'
+import nodemailer from 'nodemailer'
 
+const requestTimestamps = new Map()
 
 const getAllUsers = asyncHandler(async (request, response) => {
   const users = await User.find()
@@ -137,6 +139,58 @@ const checkUser = asyncHandler(async (request, response) => {
   }
 })
 
+const requestAccount = asyncHandler(async (request, response) => {
+  const { email } = request.body
+
+  if (!isEmail(email)) {
+    return response
+      .status(400)
+      .json({ message: 'Please enter a valid email address.' })
+  }
+
+  const currentTime = Date.now()
+  const lastRequestTime = requestTimestamps.get(email)
+
+  if (lastRequestTime && currentTime - lastRequestTime < 24 * 60 * 60 * 1000) {
+   
+    return response.status(429).json({
+      message: `You have already made a request.`,
+    })
+  }
+
+  requestTimestamps.set(email, currentTime)
+
+  const transporter = nodemailer.createTransport({
+    secure: true,
+    host: 'smtp.gmail.com',
+    port: 465,
+    auth: {
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_PASS,
+    },
+  })
+
+  const message = `
+    <h3>A user has requested to create an account for the tracker system.</h3> 
+    <h4>Customer details: 
+      <br/>
+      <span>Email: ${email}</span>
+    </h4>
+    <p>Please review this request and provide further instructions to the user.</p>
+  `
+
+  await transporter.sendMail({
+    to: process.env.GMAIL_USER,
+    from: email,
+    subject: 'Requesting Account for Tracker Application.',
+    html: message,
+  })
+
+  return response.status(200).json({
+    message: 'Requested successfully.',
+  })
+})
+
 export {
   getAllUsers,
   authenticateUser,
@@ -144,4 +198,5 @@ export {
   deleteUser,
   logoutUser,
   checkUser,
+  requestAccount,
 }

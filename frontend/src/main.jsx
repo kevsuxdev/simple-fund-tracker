@@ -10,12 +10,14 @@ import AddFunds from './pages/Dashboard/AddFunds.jsx'
 import Transaction from './pages/Dashboard/Transaction.jsx'
 import Funds from './pages/Dashboard/Funds.jsx'
 import Expenses from './pages/Dashboard/Expenses.jsx'
+import RequestAccount from './pages/RequestAccount'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Router>
       <Routes>
         <Route path='/' Component={App} />
+        <Route path='/request' Component={RequestAccount} />
         <Route path='/login' Component={Login} />
         <Route path='/dashboard' Component={DashboardLayout}>
           <Route index Component={Dashboard} />
