@@ -9,7 +9,7 @@ import {
   LabelList,
 } from 'recharts'
 
-const MonthlySaving = () => {
+const MonthlySaving = ({ isDesktop }) => {
   const savingsData = [
     { month: 'January', saving: 0 },
     { month: 'February', saving: 0 },
@@ -107,26 +107,41 @@ const MonthlySaving = () => {
           <Bar
             dataKey={'saving'}
             fill='#04ab67'
-            radius={5}
+            radius={20}
             width={15}
-            barSize={50}
+            barSize={isDesktop ? 120 : 50}
           >
             <LabelList
               dataKey='month'
               position='insideBottom'
-              offset={8}
-              fontSize={10}
+              offset={18}
+              fontSize={isDesktop ? 12 : 10}
               fill='#ffff'
               fontWeight={500}
-              formatter={(value) => value.slice(0, 3)}
+              formatter={(value) => (isDesktop ? value : value.slice(0, 3))}
             />
             <LabelList
               dataKey={'saving'}
-              fontSize={11}
+              fontSize={13}
               position='top'
               fill='#ffff'
               fontWeight={500}
-              offset={20}
+              content={({ x, y, value, width, height }) => {
+                const offset = value > 0 ? 10 : 50
+                const formattedValue = value.toLocaleString()
+                return (
+                  <text
+                    x={x + width / 2}
+                    y={y - offset}
+                    fill='#ffff'
+                    fontSize={13}
+                    fontWeight={500}
+                    textAnchor='middle'
+                  >
+                    {formattedValue}
+                  </text>
+                )
+              }}
             />
           </Bar>
         </BarChart>

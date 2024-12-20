@@ -9,7 +9,7 @@ import {
   XAxis,
 } from 'recharts'
 
-const MonthyExpense = () => {
+const MonthyExpense = ({ isDesktop }) => {
   const expensesData = [
     { month: 'January', expense: 0 },
     { month: 'February', expense: 0 },
@@ -106,27 +106,41 @@ const MonthyExpense = () => {
           <Bar
             dataKey={'expense'}
             fill='#d60303'
-            radius={5}
+            radius={20}
             width={15}
-            barSize={50}
-            animationEasing='ease-in'
+            barSize={isDesktop ? 120 : 50}
           >
             <LabelList
               dataKey='month'
               position='insideBottom'
-              offset={8}
-              fontSize={10}
+              offset={18}
+              fontSize={isDesktop ? 12 : 10}
               fill='#ffff'
               fontWeight={500}
-              formatter={(value) => value.slice(0, 3)}
+              formatter={(value) => (isDesktop ? value : value.slice(0, 3))}
             />
             <LabelList
               dataKey={'expense'}
-              fontSize={11}
+              fontSize={13}
               position='top'
               fill='#ffff'
               fontWeight={500}
-              offset={20}
+              content={({ x, y, value, width, height }) => {
+                const offset = value > 0 ? 10 : 50
+                const formattedValue = value.toLocaleString()
+                return (
+                  <text
+                    x={x + width / 2}
+                    y={y - offset}
+                    fill='#ffff'
+                    fontSize={13}
+                    fontWeight={500}
+                    textAnchor='middle'
+                  >
+                    {formattedValue}
+                  </text>
+                )
+              }}
             />
           </Bar>
         </BarChart>

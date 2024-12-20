@@ -3,9 +3,10 @@ import { GiMoneyStack } from 'react-icons/gi'
 import { GiTakeMyMoney } from 'react-icons/gi'
 import { AiOutlineTransaction } from 'react-icons/ai'
 import { MdMoneyOff } from 'react-icons/md'
+import { MdOutlineAttachMoney, MdOutlineMoneyOff } from 'react-icons/md'
 
 const navLinks = [
-  { id: 1, location: '', name: 'Dashboard', icon: <GiMoneyStack /> },
+  { id: 1, location: '', name: 'Dashboard', icon: <IoIosHome /> },
   {
     id: 2,
     location: 'funds',
@@ -22,13 +23,13 @@ const navLinks = [
         id: 2,
         location: 'add-funds',
         name: 'Add Funds',
-        icon: <GiTakeMyMoney />,
+        icon: <MdOutlineAttachMoney />,
       },
       {
         id: 3,
         location: 'add-expenses',
         name: 'Add Expenses',
-        icon: <MdMoneyOff />,
+        icon: <MdOutlineMoneyOff />,
       },
     ],
   },
@@ -55,11 +56,11 @@ const toastStyle = {
   style: { color: 'white', fontSize: '13.5px', fontFamily: 'Poppins' },
 }
 const fundsHeaderContent = [
-  { id: 1, name: 'Type' },
-  { id: 2, name: 'Description' },
-  { id: 3, name: 'Amount' },
-  { id: 4, name: 'Date' },
-  // { id: 3, name: 'Action' },
+  { id: 1, name: 'Type', desktopOnly: false },
+  { id: 2, name: 'Description', desktopOnly: false },
+  { id: 3, name: 'Amount', desktopOnly: false },
+  { id: 4, name: 'Date', desktopOnly: false },
+  { id: 5, name: 'Action', desktopOnly: true },
 ]
 
 export { navLinks, isValidAmount, toastStyle, fundsHeaderContent }

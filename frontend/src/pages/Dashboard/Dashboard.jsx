@@ -1,3 +1,5 @@
+import MonthlySaving from '@/components/charts/MonthlySaving'
+import MonthyExpense from '@/components/charts/MonthyExpense'
 import DashboardCard from '@/components/DashboardCard'
 import PulseLoading from '@/components/PulseLoading'
 import { fundsHeaderContent } from '@/constant'
@@ -7,6 +9,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(false)
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024)
 
   const [saving, setSaving] = useState(0)
   const [expense, setExpense] = useState(0)
@@ -77,7 +80,17 @@ const Dashboard = () => {
       setIsLoading(false)
     }
 
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024)
+    }
+
     fetchingData()
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
   }, [getFunds, getExpenses, latestFunds])
   return (
     <section className='w-full min-h-screen p-5 flex flex-col gap-5'>
@@ -94,7 +107,7 @@ const Dashboard = () => {
         <PulseLoading />
       ) : (
         <React.Fragment>
-          <article className='grid gap-4'>
+          <article className='grid lg:grid-cols-3 gap-4'>
             <DashboardCard
               type={'saving'}
               title={'Total Savings'}
@@ -116,14 +129,16 @@ const Dashboard = () => {
               <thead className='w-full bg-[#161717] rounded-lg'>
                 <tr>
                   {fundsHeaderContent.map((nav) => {
-                    const { id, name } = nav
+                    const { id, name, desktopOnly } = nav
                     return (
-                      <th
-                        key={id}
-                        className='flex-1 text-center xl:text-sm text-[10px] font-medium tracking-wide py-5'
-                      >
-                        {name}
-                      </th>
+                      !desktopOnly && (
+                        <th
+                          key={id}
+                          className='flex-1 text-center xl:text-sm text-[10px] font-medium tracking-wide py-5'
+                        >
+                          {name}
+                        </th>
+                      )
                     )
                   })}
                 </tr>
@@ -136,14 +151,14 @@ const Dashboard = () => {
                       key={_id}
                       className={`${
                         index % 2 === 0 ? 'bg-white/10' : 'bg-transparent'
-                      } p-3 px-10 gap-5 w-full cursor-pointer rounded-lg`}
+                      } p-3 px-10 gap-5 w-full rounded-lg`}
                     >
                       <td className={`text-[9px] text-center py-3 xl:text-sm`}>
                         {type}
                       </td>
                       <td className='text-[9px] text-center py-3 xl:text-sm'>
-                        {description && description.length > 12
-                          ? `${description.slice(0, 12)}...`
+                        {description && description.length > 15
+                          ? `${isDesktop ? description.slice(0, 25) : description.slice(0, 12)}...`
                           : description || 'Not Applicable'}
                       </td>
                       <td
@@ -164,6 +179,17 @@ const Dashboard = () => {
                 })}
               </tbody>
             </table>
+
+            {isDesktop && (
+              <aside className='flex flex-col gap-5 mt-5'>
+                <article className='h-[70vh]'>
+                  <MonthlySaving isDesktop={isDesktop} />
+                </article>
+                <article className='h-[70vh] my-16'>
+                  <MonthyExpense isDesktop={isDesktop} />
+                </article>
+              </aside>
+            )}
           </aside>
         </React.Fragment>
       )}

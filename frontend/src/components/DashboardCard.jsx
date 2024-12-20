@@ -8,11 +8,11 @@ const DashboardCard = ({ type, title, total }) => {
         cardType === 'expense' && 'bg-[#d60303]'
       } ${cardType === null && 'bg-blue-500'} p-5 rounded-lg`}
     >
-      <div className='flex justify-between'>
-        <h1 className='text-sm font-bold tracking-wide'>
+      <div className='flex justify-between items-center'>
+        <h1 className='text-sm font-bold tracking-wide lg:text-lg'>
           {title || 'Total Savings'}
         </h1>
-        <p className='text-xs font-medium'>
+        <p className='text-xs font-medium lg:text-sm'>
           ₱{' '}
           {parseFloat(total || 0)
             .toFixed(2)
