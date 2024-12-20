@@ -55,9 +55,11 @@ const toastStyle = {
   style: { color: 'white', fontSize: '13.5px', fontFamily: 'Poppins' },
 }
 const fundsHeaderContent = [
-  { id: 1, name: 'Transaction Type' },
-  { id: 2, name: 'Amount' },
-  { id: 3, name: 'Action' },
+  { id: 1, name: 'Type' },
+  { id: 2, name: 'Description' },
+  { id: 3, name: 'Amount' },
+  { id: 4, name: 'Date' },
+  // { id: 3, name: 'Action' },
 ]
 
 export { navLinks, isValidAmount, toastStyle, fundsHeaderContent }
