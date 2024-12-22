@@ -158,7 +158,7 @@ const AddFunds = () => {
                     } p-3 px-10 gap-5 w-full rounded-lg`}
                   >
                     <td className='text-[9px] text-center py-3 xl:text-sm'>
-                      Saving
+                      Savings
                     </td>
                     <td
                       className={`text-[9px] text-center py-3 xl:text-sm font-medium text-green-400`}

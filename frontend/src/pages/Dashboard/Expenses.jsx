@@ -172,7 +172,7 @@ const Expenses = () => {
                     } p-3 px-10 gap-5 w-full rounded-lg`}
                   >
                     <td className='text-[9px] text-center py-3 xl:text-sm'>
-                      Saving
+                      Expenses
                     </td>
                     <td className='text-[9px] text-center py-3 xl:text-sm'>
                       {description && description.length > 15
