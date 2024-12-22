@@ -67,7 +67,10 @@
     @apply w-full bg-transparent p-3 rounded-md text-xs border-gray-600 border outline-none;
   }
   .primary-button {
-    @apply w-full p-2 text-sm rounded-lg bg-accent;
+    @apply w-full p-2 text-sm rounded-lg bg-accent duration-300 border border-transparent active:scale-90;
+  }
+  .primary-button:hover {
+    @apply border border-white bg-transparent;
   }
   .card-shadow {
     position: absolute;

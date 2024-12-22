@@ -4,6 +4,7 @@ import TextInput from '../components/TextInput'
 import { useState } from 'react'
 import PasswordInput from '../components/PasswordInput'
 import { IoLinkOutline } from 'react-icons/io5'
+import Logo from '../assets/logo.png'
 
 import axios from 'axios'
 import { ToastContainer } from 'react-toastify'
@@ -48,10 +49,17 @@ const Login = () => {
         onSubmit={handleLoginForm}
         className='bg-secondary w-[85%] md:w-[40%]  p-5 flex items-center flex-col z-10 rounded-lg gap-5'
       >
-        <article className='w-full flex flex-col items-center gap-2'>
-          <h1 className='title'>Login</h1>
-          <p className='text-sm text-prompt'>
-            Track your savings and funds and take control today.
+        <article className='w-full flex flex-col items-center gap-3'>
+          <h1 className='text-xl font-bold tracking-wide self-start flex items-center justify-between w-full'>
+            Login
+            <NavLink to={'/'} className={'self-start'}>
+              <img src={Logo} alt='Logo' className='w-8 h-8 lg:w-10 lg:h-10' />
+            </NavLink>
+          </h1>
+
+          <p className='text-xs lg:text-sm text-prompt text-start self-start'>
+            Provide your credentials to log in safely and keep track of your
+            financial progress.
           </p>
         </article>
         <TextInput
@@ -86,7 +94,7 @@ const Login = () => {
           </NavLink>
         </p>
       </form>
-      <ToastContainer/>
+      <ToastContainer />
     </section>
   )
 }

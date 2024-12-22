@@ -62,5 +62,9 @@ const fundsHeaderContent = [
   { id: 4, name: 'Date', desktopOnly: false },
   { id: 5, name: 'Action', desktopOnly: true },
 ]
+const landingNav = [
+  { id: 1, name: 'About', location: '/about' },
+  { id: 2, name: 'Contact', location: '/contact' },
+]
 
-export { navLinks, isValidAmount, toastStyle, fundsHeaderContent }
+export { navLinks, isValidAmount, toastStyle, fundsHeaderContent, landingNav }
