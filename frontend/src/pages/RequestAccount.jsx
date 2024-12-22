@@ -42,7 +42,7 @@ const RequestAccount = () => {
         className='bg-secondary w-[85%] md:w-[40%]  p-5 flex items-center flex-col z-10 rounded-lg gap-5'
       >
         <article className='w-full flex flex-col items-center gap-3'>
-          <h1 className='text-xl font-bold tracking-wide self-start flex items-center justify-between w-full'>
+          <h1 className='text-xl lg:text-2xl font-bold tracking-wide self-start flex items-center justify-between w-full'>
             Request Form
             <NavLink to={'/'} className={'self-start'}>
               <img src={Logo} alt='Logo' className='w-8 h-8 lg:w-10 lg:h-10' />
