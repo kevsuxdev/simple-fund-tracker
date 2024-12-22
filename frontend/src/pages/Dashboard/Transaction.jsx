@@ -9,10 +9,12 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination'
 import { transactionHeaderContent } from '@/constant'
+import PulseLoading from '@/components/PulseLoading'
 
 const Transaction = () => {
   const [userTransaction, setUserTranscation] = useState([])
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024)
+  const [fetching, setFetching] = useState(false)
 
   const getTransaction = useCallback(async () => {
     try {
@@ -35,10 +37,23 @@ const Transaction = () => {
   const [endIndex, setEndIndex] = useState(rowPerPage)
 
   useEffect(() => {
-    getTransaction()
     const handleResize = () => {
       setIsDesktop(window.innerWidth >= 1024)
     }
+
+    const fetchingTransaction = async () => {
+      setFetching(true)
+      try {
+        await Promise.all([getTransaction()])
+      } catch (error) {
+        console.log(error)
+        setFetching(false)
+      } finally {
+        setFetching(false)
+      }
+    }
+
+    fetchingTransaction()
 
     window.addEventListener('resize', handleResize)
 
@@ -86,76 +101,80 @@ const Transaction = () => {
         </Pagination>
       </div>
 
-      <aside>
-        <table className='w-full border-collapse'>
-          <thead className='w-full bg-[#161717] rounded-lg'>
-            <tr>
-              {transactionHeaderContent.map((nav) => {
-                const { id, name } = nav
-                return (
-                  <th
-                    key={id}
-                    className='flex-1 text-center xl:text-sm text-[10px] font-medium tracking-wide py-5'
-                  >
-                    {name}
-                  </th>
-                )
-              })}
-            </tr>
-          </thead>
-          <tbody className='w-full'>
-            {userTransaction
-              .slice(startIndex, endIndex)
-              .map((transaction, index) => {
-                const {
-                  _id,
-                  transactionType,
-                  transactionId,
-                  action,
-                  createdAt,
-                } = transaction
-                return (
-                  <tr
-                    key={_id}
-                    className={`${
-                      index % 2 === 0 ? 'bg-white/10' : 'bg-transparent'
-                    } p-3 px-10 gap-5 w-full rounded-lg`}
-                  >
-                    <td className='text-[9px] text-center py-3 xl:text-sm'>
-                      {transactionType === 'Fund' ? 'Savings' : 'Expenses'}
-                    </td>
-                    <td
-                      className={`text-[9px] text-center py-3 xl:text-sm font-medium 
-                        ${
-                          transactionId
-                            ? transactionType === 'Fund'
-                              ? 'text-green-400'
-                              : transactionType === 'Expense'
-                              ? 'text-red-500'
-                              : ''
-                            : ''
-                        }`}
+      {fetching ? (
+        <PulseLoading />
+      ) : (
+        <aside>
+          <table className='w-full border-collapse'>
+            <thead className='w-full bg-[#161717] rounded-lg'>
+              <tr>
+                {transactionHeaderContent.map((nav) => {
+                  const { id, name } = nav
+                  return (
+                    <th
+                      key={id}
+                      className='flex-1 text-center xl:text-sm text-[10px] font-medium tracking-wide py-5'
                     >
-                      {transactionId
-                        ? `₱ ${
-                            transactionType === 'Fund' ? '+' : '-'
-                          }${parseFloat(transactionId.amount.$numberDecimal)
-                            .toFixed(2)
-                            .replace(/\B(?=(\d{3})+(?!\d))/g)}`
-                        : 'Deleted'}
-                    </td>
-                    <td className='text-[9px] text-center py-3 xl:text-sm'>
-                      {action}
-                    </td>
-                    <td className='text-[9px] text-center py-3 xl:text-sm'>
-                      {format(createdAt, 'MM-dd-yyyy')}
-                    </td>
-                  </tr>
-                )
-              })}
-          </tbody>
-        </table>
-      </aside>
+                      {name}
+                    </th>
+                  )
+                })}
+              </tr>
+            </thead>
+            <tbody className='w-full'>
+              {userTransaction
+                .slice(startIndex, endIndex)
+                .map((transaction, index) => {
+                  const {
+                    _id,
+                    transactionType,
+                    transactionId,
+                    action,
+                    createdAt,
+                  } = transaction
+                  return (
+                    <tr
+                      key={_id}
+                      className={`${
+                        index % 2 === 0 ? 'bg-white/10' : 'bg-transparent'
+                      } p-3 px-10 gap-5 w-full rounded-lg`}
+                    >
+                      <td className='text-[9px] text-center py-3 xl:text-sm'>
+                        {transactionType === 'Fund' ? 'Savings' : 'Expenses'}
+                      </td>
+                      <td
+                        className={`text-[9px] text-center py-3 xl:text-sm font-medium 
+                          ${
+                            transactionId
+                              ? transactionType === 'Fund'
+                                ? 'text-green-400'
+                                : transactionType === 'Expense'
+                                ? 'text-red-500'
+                                : ''
+                              : ''
+                          }`}
+                      >
+                        {transactionId
+                          ? `₱ ${
+                              transactionType === 'Fund' ? '+' : '-'
+                            }${parseFloat(transactionId.amount.$numberDecimal)
+                              .toFixed(2)
+                              .replace(/\B(?=(\d{3})+(?!\d))/g)}`
+                          : 'Deleted'}
+                      </td>
+                      <td className='text-[9px] text-center py-3 xl:text-sm'>
+                        {action}
+                      </td>
+                      <td className='text-[9px] text-center py-3 xl:text-sm'>
+                        {format(createdAt, 'MM-dd-yyyy')}
+                      </td>
+                    </tr>
+                  )
+                })}
+            </tbody>
+          </table>
+        </aside>
+      )}
     </section>
   )
 }
