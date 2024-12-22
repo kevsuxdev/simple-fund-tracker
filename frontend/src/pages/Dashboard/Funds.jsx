@@ -308,7 +308,7 @@ const Funds = () => {
                           ₱ {type === 'Savings' ? '+' : '-'}
                           {parseFloat(amount.$numberDecimal)
                             .toFixed(2)
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            .replace(/\B(?=(\d{3})+(?!\d))/g)}
                         </td>
                         <td className='text-[9px] text-center py-3 xl:text-sm relative flex flex-col'>
                           {format(date, 'MM-dd-yyyy')}

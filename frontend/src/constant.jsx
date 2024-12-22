@@ -62,9 +62,38 @@ const fundsHeaderContent = [
   { id: 4, name: 'Date', desktopOnly: false },
   { id: 5, name: 'Action', desktopOnly: true },
 ]
+const savingsHeaderContent = [
+  { id: 1, name: 'Type' },
+  { id: 2, name: 'Amount' },
+  { id: 3, name: 'Date' },
+]
+
+const expensesHeaderContent = [
+  { id: 1, name: 'Type' },
+  { id: 2, name: 'Description' },
+  { id: 3, name: 'Amount' },
+  { id: 4, name: 'Date' },
+]
+
+const transactionHeaderContent = [
+  { id: 1, name: 'Type' },
+  { id: 2, name: 'Amount' },
+  { id: 3, name: 'Action' },
+  { id: 4, name: 'Date issued' },
+]
+
 const landingNav = [
   { id: 1, name: 'About', location: '/about' },
   { id: 2, name: 'Contact', location: '/contact' },
 ]
 
-export { navLinks, isValidAmount, toastStyle, fundsHeaderContent, landingNav }
+export {
+  navLinks,
+  isValidAmount,
+  toastStyle,
+  fundsHeaderContent,
+  landingNav,
+  savingsHeaderContent,
+  expensesHeaderContent,
+  transactionHeaderContent
+}
