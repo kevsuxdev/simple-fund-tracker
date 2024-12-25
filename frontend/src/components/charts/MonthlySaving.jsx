@@ -73,7 +73,7 @@ const MonthlySaving = ({ isDesktop }) => {
       <ResponsiveContainer
         width='100%'
         height='100%'
-        className={'flex flex-col gap-2'}
+        className={'flex flex-col gap-2 pb-20'}
       >
         <article className='flex flex-col gap-3'>
           <h1 className='text-2xl font-bold tracking-wide'>Monthy Savings </h1>

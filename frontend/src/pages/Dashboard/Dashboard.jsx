@@ -158,7 +158,11 @@ const Dashboard = () => {
                       </td>
                       <td className='text-[9px] text-center py-3 xl:text-sm'>
                         {description && description.length > 15
-                          ? `${isDesktop ? description.slice(0, 25) : description.slice(0, 12)}...`
+                          ? `${
+                              isDesktop
+                                ? description.slice(0, 25)
+                                : description.slice(0, 12)
+                            }...`
                           : description || 'Not Applicable'}
                       </td>
                       <td
@@ -181,13 +185,9 @@ const Dashboard = () => {
             </table>
 
             {isDesktop && (
-              <aside className='flex flex-col gap-5 mt-5'>
-                <article className='h-[70vh]'>
-                  <MonthlySaving isDesktop={isDesktop} />
-                </article>
-                <article className='h-[70vh] my-16'>
-                  <MonthyExpense isDesktop={isDesktop} />
-                </article>
+              <aside className='flex gap-5 mt-5 w-full h-[50vh]'>
+                <MonthlySaving isDesktop={isDesktop} />
+                <MonthyExpense isDesktop={isDesktop} />
               </aside>
             )}
           </aside>
